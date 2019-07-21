@@ -15,7 +15,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// </summary>
         /// <param name="status">Status of the appointments to get</param>
         /// <returns>List of appointments waiting for approval</returns>
-        Task<IEnumerable<AppointmentRequestDetail>> GetAppointmentsAsync(AppointmentApprovalStatuses status);
+        Task<AppointmentModel> GetAppointmentsAsync(AppointmentApprovalStatuses status);
 
         /// <summary>
         /// Approve the requested appointment time that was requested

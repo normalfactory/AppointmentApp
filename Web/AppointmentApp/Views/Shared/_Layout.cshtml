@@ -48,15 +48,15 @@
                     <ul class="navbar-nav">
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Appointment" asp-action="Requested (@ViewData["RequestedCount"])">Requested</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Appointment" asp-action="Requested">Requested @ViewData["RequestedCount"]</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Appointment" asp-action="Confirmed (@ViewData["ConfirmedCount"])">Confirmed</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Appointment" asp-action="Confirmed">Confirmed @ViewData["ConfirmedCount"]</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Appointment" asp-action="Alternative (@ViewData["AlternativeCount"])">Alternative</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Appointment" asp-action="Alternative">Alternative @ViewData["AlternativeCount"]</a>
                         </li>
 
                         <li class="nav-item">
@@ -64,8 +64,7 @@
                         </li>
 
 
-                        <!-- Social Links -->
-                        <li class="nav-item">
+                        <li class="GitHub">
                             <a class="nav-link" target="_blank" href="https://github.com/normalfactory/AppointmentApp">GitHub</a>
                         </li>
 
@@ -83,7 +82,7 @@
 
         <footer class="border-top footer text-muted bg-dark">
             <div class="container text-center">
-                PetSchedule - <a asp-area="" asp-controller="About" asp-action="Index">About</a>
+                PetScheduler - <a target="_blank" href="https://github.com/normalfactory/AppointmentApp">GitHub</a>
             </div>
         </footer>
 

@@ -35,5 +35,6 @@ namespace NormalFactory.AppointmentApp.Data
         public string Breed { get; set; }
 
         #endregion
+
     }
 }

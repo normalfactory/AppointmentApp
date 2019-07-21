@@ -31,5 +31,6 @@ namespace NormalFactory.AppointmentApp.Data
         public string LastName { get; set; }
 
         #endregion
+
     }
 }

@@ -65,19 +65,23 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// that is stored in cache; not found then pulls appointments from API
         /// </summary>
         /// <param name="status">Status to filter the records for</param>
-        /// <returns>List of the appointments based on status</returns>
-        public async Task<IEnumerable<AppointmentRequestDetail>> GetAppointmentsAsync(AppointmentApprovalStatuses status)
+        /// <returns>Information requested</returns>
+        public async Task<AppointmentModel> GetAppointmentsAsync(AppointmentApprovalStatuses status)
         {
             //- Get Appointments
             var allAppointments = await GetAppointmentsAsync();
 
 
+            //- Calcualate Counts
+            AppointmentModel model = CalculateStatusCounts(allAppointments);
+
+
             //- Filter Appointments
-            var filteredAppointments = (from item in allAppointments
+            model.Appointments = (from item in allAppointments
                                       where (item.Status == status)
                                       select item).ToList();
 
-            return filteredAppointments;
+            return model;
         }
 
         /// <summary>
@@ -103,6 +107,36 @@ namespace NormalFactory.AppointmentApp.Web.Models
         {
             // Sample application; just return true
             return true;
+        }
+
+        #endregion
+
+
+
+        #region Calcualte Count by Status
+
+        /// <summary>
+        /// Determines the counts of appointments based on the status
+        /// </summary>
+        /// <param name="appointments">List of the appointments to determine count</param>
+        /// <returns>Model with the counts</returns>
+        private AppointmentModel CalculateStatusCounts(List<AppointmentRequestDetail> appointments)
+        {
+            AppointmentModel model = new AppointmentModel();
+
+            model.AlternativeAppointmentCount = (from item in appointments
+                                                 where (item.Status == AppointmentApprovalStatuses.Alternative)
+                                                 select item).Count();
+
+            model.ConfirmedAppointmentCount = (from item in appointments
+                                                 where (item.Status == AppointmentApprovalStatuses.Confirmed)
+                                                 select item).Count();
+
+            model.RequestedAppointmentCount = (from item in appointments
+                                               where (item.Status == AppointmentApprovalStatuses.Requested)
+                                               select item).Count();
+
+            return model;
         }
 
         #endregion

@@ -79,6 +79,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
             //- Filter Appointments
             model.Appointments = (from item in allAppointments
                                       where (item.Status == status)
+                                      orderby item.RequestedDateTimeOffset ascending
                                       select item).ToList();
 
             return model;
@@ -103,10 +104,29 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// <param name="appointmentID">Unique identifier for the appointment</param>
         /// <returns>TRUE- success in setting the approval for appointment
         /// FALSE- unable to set the approval</returns>
-        public async Task<bool> SetAppointmentRequestAsync(int appointmentID)
+        public async Task<bool> SetConfirmAppointmentAsync(int appointmentID)
         {
-            // Sample application; just return true
-            return true;
+            //- Get Appointments
+            var allAppts = await GetAppointmentsAsync();
+
+
+            //- Find Appointment
+            var confirmedAppointment = (from item in allAppts
+                                        where (item.AppointmentId == appointmentID)
+                                        select item).FirstOrDefault();
+
+
+            //- Update Status
+            if (confirmedAppointment != null)
+            {
+                confirmedAppointment.Status = AppointmentApprovalStatuses.Confirmed;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #endregion

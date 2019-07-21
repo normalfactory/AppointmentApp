@@ -23,7 +23,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// <param name="appointmentID">Unique identifier for the appointment</param>
         /// <returns>TRUE- success in setting the approval for appointment
         /// FALSE- unable to set the approval</returns>
-        Task<bool> SetAppointmentRequestAsync(int appointmentID);
+        Task<bool> SetConfirmAppointmentAsync(int appointmentID);
 
         /// <summary>
         /// Sets the alternative time for the appointment

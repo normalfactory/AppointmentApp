@@ -54,15 +54,41 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
 
 
-        #region Action
-
-        // GET: /<controller>/
+        #region Action: Requested
 
         /// <summary>
-        /// 
+        /// Display appointments that have the status of Requested
         /// </summary>
-        /// <returns></returns>
+        /// <returns>View</returns>
         public async Task<IActionResult> Requested()
+        {
+            return await GetRequestedView();
+        }
+
+        /// <summary>
+        /// Updates the confirmed appointment and returns updated view
+        /// </summary>
+        /// <param name="id">Unique identifier of appointment to confirm appointment with</param>
+        /// <returns>View</returns>
+        public async Task<IActionResult> ConfirmAppt(int id)
+        {
+            //- ConfirmAppointment
+            var isSuccess = await _appointmentDataAccess.SetConfirmAppointmentAsync(id);
+
+            if (isSuccess == false)
+            {
+                return NotFound();
+            }
+
+
+            return await GetRequestedView();
+        }
+
+        /// <summary>
+        /// Prepares ViewModel for use with view for requested appointments and updates navbar
+        /// </summary>
+        /// <returns>View</returns>
+        private async Task<IActionResult> GetRequestedView()
         {
             //- Get Appointments
             var requestApptModel = await _appointmentDataAccess.GetAppointmentsAsync(AppointmentApprovalStatuses.Requested);
@@ -74,12 +100,48 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
             //- Create ViewModel
             RequestedAppointmentViewModel vm = new RequestedAppointmentViewModel()
-                {
-                    Appointments = requestApptModel.Appointments
-                };
+            {
+                Appointments = requestApptModel.Appointments
+            };
+
+
+            return View("Requested", vm);
+        }
+
+        #endregion
+
+
+
+        #region Action: Confirmed
+
+        /// <summary>
+        /// Displays those appointments that have been confirmed
+        /// </summary>
+        /// <returns>View</returns>
+        public async Task<IActionResult> Confirmed()
+        {
+            //- Get Appointments
+            var confirmApptModel = await _appointmentDataAccess.GetAppointmentsAsync(AppointmentApprovalStatuses.Confirmed);
+
+
+            //- Update NavBar
+            UpdateNavBar(confirmApptModel);
+
+
+            //- Create ViewModel
+            ConfirmedAppointmentViewModel vm = new ConfirmedAppointmentViewModel()
+            {
+                Appointments = confirmApptModel.Appointments
+            };
 
             return View(vm);
         }
+
+        #endregion
+
+
+
+        #region Alternative
 
 
         public async Task<IActionResult> Alternative()
@@ -87,14 +149,6 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
             return View();
         }
-
-
-        public async Task<IActionResult> Confirmed()
-        {
-
-            return View();
-        }
-
 
         #endregion
 

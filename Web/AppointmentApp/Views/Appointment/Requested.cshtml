@@ -31,7 +31,8 @@
                         <td>@Model.GetClientDisplayName(appointment.User)</td>
                         <td>@Model.GetPatientDisplayName(appointment.Animal)</td>
                         <td>@Model.GetFormattedDateTime(appointment.RequestedDateTimeOffset)</td>
-                        <td><a asp-controller="Appointment" asp-action="ConfirmAppt" asp-route-id="@appointment.AppointmentId">Confirm</a>|Alternative</td>
+                        <td><a asp-controller="Appointment" asp-action="ConfirmAppt" asp-route-id="@appointment.AppointmentId">Confirm</a>|
+                        <a asp-controller="Appointment" asp-action="EditAlternative" asp-route-id="@appointment.AppointmentId">Alternative</a></td>
                     </tr>
                     }
 

@@ -1,17 +1,18 @@
 ﻿using System;
+
 namespace NormalFactory.AppointmentApp.Web.Models
 {
     /// <summary>
-    /// Information from appointment data access; counts on the different appointments
+    /// Contains information about the current counts of the appointments by status
     /// </summary>
-    public class AppointmentInfoModel
+    public sealed class AppointmentStatusInfo
     {
         #region Constructor
 
         /// <summary>
         /// Creates a new instance and sets default values
         /// </summary>
-        public AppointmentInfoModel()
+        public AppointmentStatusInfo()
         {
             RequestedAppointmentCount = 0;
             ConfirmedAppointmentCount = 0;
@@ -40,6 +41,5 @@ namespace NormalFactory.AppointmentApp.Web.Models
         public int AlternativeAppointmentCount { get; set; }
 
         #endregion
-
     }
 }

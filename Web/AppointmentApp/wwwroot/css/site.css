@@ -57,3 +57,9 @@ body {
     height: 30px;
     line-height: 30px; /* Vertically center the text there */
 }
+
+
+/* Confirmation Image */
+.confirmImage{
+    max-width: 125px;
+}

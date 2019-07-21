@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using NormalFactory.AppointmentApp.Data;
 
 namespace NormalFactory.AppointmentApp.Web.Models
 {
     /// <summary>
-    /// Contains appointment information from the data store
+    /// Used to return individual appointment from data access
     /// </summary>
-    public sealed class AppointmentModel
+    public sealed class SingleAppointmentModel
     {
-
         #region Public Properties
 
         /// <summary>
-        /// List of the appointments requested
+        /// Individual appointment record requested; null when not found
         /// </summary>
-        public List<AppointmentRequestDetail> Appointments { get; set; }
+        public AppointmentRequestDetail Appointment { get; set; }
+
 
         /// <summary>
         /// Counts of the appointments by status within current edit session

@@ -58,7 +58,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
 
 
 
-        #region Implement IAppointmentDataAccess
+        #region Get Appointments
 
         /// <summary>
         /// Returns list of appointents based on the status provided; searches for current session
@@ -73,9 +73,9 @@ namespace NormalFactory.AppointmentApp.Web.Models
 
 
             //- Calcualate Counts
-            var statusInfo = CalculateStatusCounts(allAppointments);
+            AppointmentModel model = new AppointmentModel();
 
-            AppointmentModel model = new AppointmentModel(statusInfo);
+            model.StatusInfo = CalculateStatusCounts(allAppointments);
 
 
             //- Filter Appointments
@@ -87,6 +87,11 @@ namespace NormalFactory.AppointmentApp.Web.Models
             return model;
         }
 
+        #endregion
+
+
+
+        #region Change Status of Appointment
 
         /// <summary>
         /// Sets the alternative time for the appointment
@@ -95,10 +100,29 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// <param name="alternativeDate">Date of the proposed alternative time</param>
         /// <returns>TRUE- success in sending notification to user
         /// FALSE- Unable to send alternative appointment</returns>
-        public async Task<bool> SetAlternativeAppointmentAsync(int appointmentID, DateTime alternativeDate)
+        public async Task<bool> SetAlternativeAppointmentAsync(int appointmentID, DateTimeOffset alternativeDate)
         {
-            // Sample application, just return true
-            return true;
+            //- Get Appointments
+            var allAppts = await GetAppointmentsAsync();
+
+
+            //- Find Appt
+            var alternativeAppt = (from item in allAppts
+                                   where (item.AppointmentId == appointmentID)
+                                   select item).FirstOrDefault();
+
+            //- Update Status
+            if (alternativeAppt != null)
+            {
+                alternativeAppt.Status = AppointmentApprovalStatuses.Alternative;
+                alternativeAppt.AlternativeDateTimeOffset = alternativeDate;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -143,7 +167,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// does not pull records from DataStore.
         /// </summary>
         /// <returns>Contains counts</returns>
-        public async Task<AppointmentInfoModel> GetAppointmentStatusesAsync()
+        public async Task<AppointmentStatusInfo> GetAppointmentStatusesAsync()
         {
             List<AppointmentRequestDetail> appts;
 
@@ -153,7 +177,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
             }
             else
             {
-                return new AppointmentInfoModel();
+                return new AppointmentStatusInfo();
             }
        }
 
@@ -162,9 +186,9 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// </summary>
         /// <param name="appointments">List of the appointments to determine count</param>
         /// <returns>Model with the counts</returns>
-        private AppointmentInfoModel CalculateStatusCounts(List<AppointmentRequestDetail> appointments)
+        private AppointmentStatusInfo CalculateStatusCounts(List<AppointmentRequestDetail> appointments)
         {
-            AppointmentInfoModel model = new AppointmentInfoModel();
+            AppointmentStatusInfo model = new AppointmentStatusInfo();
 
             model.AlternativeAppointmentCount = (from item in appointments
                                                  where (item.Status == AppointmentApprovalStatuses.Alternative)
@@ -185,7 +209,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
 
 
 
-        #region Get Appointments
+        #region Get Appointments from data store
 
         /// <summary>
         /// Gets all of the appointments; first checks cache and if not found hits the API
@@ -223,8 +247,41 @@ namespace NormalFactory.AppointmentApp.Web.Models
             return appointments;
         }
 
+        #endregion
+
+
+
+        #region Get Appointments by ID
+
+        /// <summary>
+        /// Returns the appointment based on the ID provided;
+        /// returns NULL when not found.
+        /// </summary>
+        /// <param name="appointmentID">Unique identifier of appointment</param>
+        /// <returns>Metadata on the results</returns>
+        public async Task<SingleAppointmentModel> GetAppointmentByIDAsync(int appointmentID)
+        {
+            //- Get Appointments
+            var appts = await GetAppointmentsAsync();
+
+
+            //- Get Counts
+            SingleAppointmentModel apptModel = new SingleAppointmentModel();
+
+            apptModel.StatusInfo = CalculateStatusCounts(appts);
+
+
+            //- Find Appointment
+            apptModel.Appointment = (from item in appts
+                                     where (item.AppointmentId == appointmentID)
+                                     select item).FirstOrDefault();
+
+            return apptModel;
+        }
 
         #endregion
+
+
 
 
 

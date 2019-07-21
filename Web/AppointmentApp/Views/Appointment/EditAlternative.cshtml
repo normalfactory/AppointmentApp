@@ -1,0 +1,68 @@
+﻿@model EditAlternativeAppointmentViewModel
+
+<div class="mt-4">
+
+    <div class="row">
+        <div class="col-12">
+            <h3>Suggest Alternative Time</h3>
+        </div>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-12">
+            <table class="table mt-5 table-sm">
+                <tbody>
+                    <tr>
+                        <td>Client:</td>
+                        <td>@Model.GetClientDisplayName(Model.Appointment.User)</td>
+                    </tr>
+                    <tr>
+                        <td>Patient:</td>
+                        <td>@Model.GetPatientDisplayName(Model.Appointment.Animal)</td>
+                    </tr>
+                    <tr>
+                        <td>Appointment Type</td>
+                        <td>@Model.Appointment.AppointmentType</td>
+                    </tr>
+                    <tr>
+                        <td>Created Date</td>
+                        <td>@Model.GetFormattedDateTime(Model.Appointment.CreateDateTime)</td>
+                    </tr>
+                    <tr>
+                        <td>Requested Time</td>
+                        <td>@Model.GetFormattedDateTime(Model.Appointment.RequestedDateTimeOffset)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <h5 class="mt-5">Propose Alternative Time</h5>
+
+
+    <div class="row">
+    
+        <form asp-action="EditAlternative" method="post" class="form-horizontal" role="form">
+
+            <div class="form-group col-12">
+                @*<label asp-for="Appointment.AlternativeDateTimeOffset" class="col-md-4 control-label">Alternative Time</label>*@
+
+                <div class="">
+                    <input asp-for="Appointment.AlternativeDateTimeOffset" type="datetime-local" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group col-12">
+                <div class="">
+                    <input type="submit" class="btn btn-primary" value="Set Alternate Time" />
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    
+</div>

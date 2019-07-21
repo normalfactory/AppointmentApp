@@ -32,13 +32,21 @@ namespace NormalFactory.AppointmentApp.Web.Models
         /// <param name="alternativeDate">Date of the proposed alternative time</param>
         /// <returns>TRUE- success in sending notification to user
         /// FALSE- Unable to send alternative appointment</returns>
-        Task<bool> SetAlternativeAppointmentAsync(int appointmentID, DateTime alternativeDate);
+        Task<bool> SetAlternativeAppointmentAsync(int appointmentID, DateTimeOffset alternativeDate);
 
         /// <summary>
         /// Gets counts of the different appointments by status within current edit session;
         /// does not pull records from DataStore.
         /// </summary>
         /// <returns>Contains counts</returns>
-        Task<AppointmentInfoModel> GetAppointmentStatusesAsync();
+        Task<AppointmentStatusInfo> GetAppointmentStatusesAsync();
+
+        /// <summary>
+        /// Returns the appointment based on the ID provided;
+        /// returns NULL when not found.
+        /// </summary>
+        /// <param name="appointmentID">Unique identifier of appointment</param>
+        /// <returns>Metadata on the results</returns>
+        Task<SingleAppointmentModel> GetAppointmentByIDAsync(int appointmentID);
     }
 }

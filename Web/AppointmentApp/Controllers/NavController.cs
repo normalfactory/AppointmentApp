@@ -38,7 +38,7 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
         /// Updates the navbar with the counts of the appointments based on the status
         /// </summary>
         /// <param name="model">Contains counts based on the status of the appointment</param>
-        public void UpdateNavBar(AppointmentInfoModel model)
+        public void UpdateNavBar(AppointmentStatusInfo model)
         {
             //- Requested
             if (model.RequestedAppointmentCount == 0)
@@ -72,7 +72,6 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
                 ViewData[_alternativeCountViewDataKey] = $"[{model.AlternativeAppointmentCount.ToString()}] ";
             }
         }
-
 
         #endregion
 

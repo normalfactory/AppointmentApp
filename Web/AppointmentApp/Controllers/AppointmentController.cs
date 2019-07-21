@@ -82,7 +82,7 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
 
             //- Update NavBar
-            UpdateNavBar(requestApptModel);
+            UpdateNavBar(requestApptModel.StatusInfo);
 
 
             //- Create ViewModel
@@ -112,7 +112,7 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
 
             //- Update NavBar
-            UpdateNavBar(confirmApptModel);
+            UpdateNavBar(confirmApptModel.StatusInfo);
 
 
             //- Create ViewModel
@@ -130,9 +130,101 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
         #region Alternative
 
-
+        /// <summary>
+        /// Display page that contains list of confirmed alternative times
+        /// </summary>
         public async Task<IActionResult> Alternative()
         {
+            //- Get Appointments
+            var confirmApptModel = await _appointmentDataAccess.GetAppointmentsAsync(AppointmentApprovalStatuses.Alternative);
+
+
+            //- Update NavBar
+            UpdateNavBar(confirmApptModel.StatusInfo);
+
+
+            //- Create ViewModel
+            AlternativeAppointmentViewModel vm = new AlternativeAppointmentViewModel()
+            {
+                Appointments = confirmApptModel.Appointments
+            };
+
+
+            return View(vm);
+        }
+
+        /// <summary>
+        /// Display page that allows user to propose alternative date
+        /// </summary>
+        /// <param name="id">Unique identifier of the appointment</param>
+        /// <returns>View</returns>
+        public async Task<IActionResult> EditAlternative(int id)
+        {
+            //- Get Appointment
+            var resultModel = await _appointmentDataAccess.GetAppointmentByIDAsync(id);
+
+
+            //- Check for Appointment
+            if (resultModel.Appointment == null)
+            {
+                return NotFound();
+            }
+
+
+            //- Navbar
+            UpdateNavBar(resultModel.StatusInfo);
+
+
+            //- Create ViewModel
+            EditAlternativeAppointmentViewModel vm = new EditAlternativeAppointmentViewModel()
+            {
+                Appointment = resultModel.Appointment
+            };
+
+
+            return View(vm);
+        }
+
+        /// <summary>
+        /// Accepts the proposed datetime from user
+        /// </summary>
+        /// <param name="id">Unique identifier of the appointment</param>
+        /// <param name="model">Only use the alternativedate set by user</param>
+        /// <returns>View based on results</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAlternative(int id, EditAlternativeAppointmentViewModel model)
+        {
+            //- Check Status
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+
+            //- Update Data Store
+            bool isSuccess = await _appointmentDataAccess.SetAlternativeAppointmentAsync(id, model.Appointment.AlternativeDateTimeOffset);
+
+            if (isSuccess == false)
+            {
+                return NotFound();
+            }
+
+
+            return RedirectToAction("AlternativeConfirmation");
+        }
+
+        /// <summary>
+        /// Displays confirmation
+        /// </summary>
+        /// <returns>View</returns>
+        public async Task<IActionResult> AlternativeConfirmation()
+        {
+            //- Update Navbar
+            var apptInfo = await _appointmentDataAccess.GetAppointmentStatusesAsync();
+
+            UpdateNavBar(apptInfo);
+
 
             return View();
         }

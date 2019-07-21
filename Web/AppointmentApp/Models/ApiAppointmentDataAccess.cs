@@ -73,7 +73,9 @@ namespace NormalFactory.AppointmentApp.Web.Models
 
 
             //- Calcualate Counts
-            AppointmentModel model = CalculateStatusCounts(allAppointments);
+            var statusInfo = CalculateStatusCounts(allAppointments);
+
+            AppointmentModel model = new AppointmentModel(statusInfo);
 
 
             //- Filter Appointments
@@ -84,6 +86,7 @@ namespace NormalFactory.AppointmentApp.Web.Models
 
             return model;
         }
+
 
         /// <summary>
         /// Sets the alternative time for the appointment
@@ -136,13 +139,32 @@ namespace NormalFactory.AppointmentApp.Web.Models
         #region Calcualte Count by Status
 
         /// <summary>
+        /// Gets counts of the different appointments by status within current edit session;
+        /// does not pull records from DataStore.
+        /// </summary>
+        /// <returns>Contains counts</returns>
+        public async Task<AppointmentInfoModel> GetAppointmentStatusesAsync()
+        {
+            List<AppointmentRequestDetail> appts;
+
+            if (_appointmentCache.TryGetValue(_appointmentCacheKey, out appts) == true)
+            {
+                return CalculateStatusCounts(appts);
+            }
+            else
+            {
+                return new AppointmentInfoModel();
+            }
+       }
+
+        /// <summary>
         /// Determines the counts of appointments based on the status
         /// </summary>
         /// <param name="appointments">List of the appointments to determine count</param>
         /// <returns>Model with the counts</returns>
-        private AppointmentModel CalculateStatusCounts(List<AppointmentRequestDetail> appointments)
+        private AppointmentInfoModel CalculateStatusCounts(List<AppointmentRequestDetail> appointments)
         {
-            AppointmentModel model = new AppointmentModel();
+            AppointmentInfoModel model = new AppointmentInfoModel();
 
             model.AlternativeAppointmentCount = (from item in appointments
                                                  where (item.Status == AppointmentApprovalStatuses.Alternative)

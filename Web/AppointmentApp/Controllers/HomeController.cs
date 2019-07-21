@@ -8,8 +8,36 @@ using NormalFactory.AppointmentApp.Web.Models;
 
 namespace NormalFactory.AppointmentApp.Web.Controllers
 {
-    public class HomeController : Controller
+    /// <summary>
+    /// Used with home page
+    /// </summary>
+    public class HomeController : NavController
     {
+        #region Private Properties
+
+        /// <summary>
+        /// Reference to data access
+        /// </summary>
+        private IAppointmentDataAccess _appointmentDataAccess;
+
+        #endregion
+
+
+
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates new instance and sets data access
+        /// </summary>
+        /// <param name="appDataAccess">Reference to data acdess; from dependency injection</param>
+        public HomeController(IAppointmentDataAccess appDataAccess)
+        {
+            _appointmentDataAccess = appDataAccess;
+        }
+
+        #endregion
+
 
 
         #region Actions
@@ -20,6 +48,12 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
         /// <returns>Landing home page</returns>
         public async Task<IActionResult> Index()
         {
+            //- Update Appointment Counts
+            var apptStatus = await _appointmentDataAccess.GetAppointmentStatusesAsync();
+
+            UpdateNavBar(apptStatus);
+
+
             return View();
         }
 

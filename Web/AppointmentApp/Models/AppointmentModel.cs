@@ -7,24 +7,35 @@ namespace NormalFactory.AppointmentApp.Web.Models
     /// <summary>
     /// Contains appointment information from the data store
     /// </summary>
-    public sealed class AppointmentModel
+    public sealed class AppointmentModel: AppointmentInfoModel
     {
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates new instance with default values
+        /// </summary>
+        public AppointmentModel()
+        {
+            
+        }
+
+        /// <summary>
+        /// Creates new instance populating status counts
+        /// </summary>
+        /// <param name="sourceInfo">Metadata on the counts by status</param>
+        public AppointmentModel(AppointmentInfoModel sourceInfo)
+        {
+            ConfirmedAppointmentCount = sourceInfo.ConfirmedAppointmentCount;
+            RequestedAppointmentCount = sourceInfo.RequestedAppointmentCount;
+            AlternativeAppointmentCount = sourceInfo.AlternativeAppointmentCount;
+        }
+
+        #endregion
+
+
+
         #region Public Properties
-
-        /// <summary>
-        /// Number of appointments in current session that have status of Requested
-        /// </summary>
-        public int RequestedAppointmentCount { get; set; }
-
-        /// <summary>
-        /// Number of appointments in current session that have status of Confirmed
-        /// </summary>
-        public int ConfirmedAppointmentCount { get; set; }
-
-        /// <summary>
-        /// Number of appointments in current session that have status of Alternative
-        /// </summary>
-        public int AlternativeAppointmentCount { get; set; }
 
         /// <summary>
         /// List of the appointments requested

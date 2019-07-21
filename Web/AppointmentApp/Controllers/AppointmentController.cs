@@ -7,28 +7,15 @@ using NormalFactory.AppointmentApp.Data;
 using NormalFactory.AppointmentApp.Web.Models;
 using NormalFactory.AppointmentApp.Web.ViewModels;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NormalFactory.AppointmentApp.Web.Controllers
 {
-    public class AppointmentController : Controller
+    /// <summary>
+    /// Used with the appointments
+    /// </summary>
+    public class AppointmentController : NavController
     {
         #region Private Properties
-
-        /// <summary>
-        /// ViewData key for the request count in navbar
-        /// </summary>
-        private const string _requestCountViewDataKey = "RequestedCount";
-
-        /// <summary>
-        /// ViewData key for the confirmed count in navbar
-        /// </summary>
-        private const string _confirmedCountViewDataKey = "ConfirmedCount";
-
-        /// <summary>
-        /// ViewData key for the alternative count in navbar
-        /// </summary>
-        private const string _alternativeCountViewDataKey = "AlternativeCount";
 
         /// <summary>
         /// Reference to the data access
@@ -44,7 +31,7 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
         /// <summary>
         /// Creates a new instance and sets the data access
         /// </summary>
-        /// <param name="apptDataAccess">Reference to data access; from depency injection</param>
+        /// <param name="apptDataAccess">Reference to data access; from dependency injection</param>
         public AppointmentController(IAppointmentDataAccess apptDataAccess)
         {
             _appointmentDataAccess = apptDataAccess;
@@ -149,52 +136,6 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
             return View();
         }
-
-        #endregion
-
-
-
-        #region Update NavBar
-
-        /// <summary>
-        /// Updates the navbar with the counts of the appointments based on the status
-        /// </summary>
-        /// <param name="model">Contains counts based on the status of the appointment</param>
-        public void UpdateNavBar(AppointmentModel model)
-        {
-            //- Requested
-            if (model.RequestedAppointmentCount == 0)
-            {
-                ViewData[_requestCountViewDataKey] = string.Empty;
-            }
-            else
-            {
-                ViewData[_requestCountViewDataKey] = $"[{model.RequestedAppointmentCount.ToString()}] ";
-            }
-
-
-            //- Confirmed
-            if (model.ConfirmedAppointmentCount == 0)
-            {
-                ViewData[_confirmedCountViewDataKey] = string.Empty;
-            }
-            else
-            {
-                ViewData[_confirmedCountViewDataKey] = $"[{model.ConfirmedAppointmentCount.ToString()}] ";
-            }
-
-
-            //- Alternative
-            if (model.AlternativeAppointmentCount == 0)
-            {
-                ViewData[_alternativeCountViewDataKey] = string.Empty;
-            }
-            else
-            {
-                ViewData[_alternativeCountViewDataKey] = $"[{model.AlternativeAppointmentCount.ToString()}] ";
-            }
-        }
-
 
         #endregion
 

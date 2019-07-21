@@ -49,7 +49,24 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
         /// <returns>View</returns>
         public async Task<IActionResult> Requested()
         {
-            return await GetRequestedView();
+            //- Get Appointments
+            var requestApptModel = await _appointmentDataAccess.GetAppointmentsAsync(AppointmentApprovalStatuses.Requested);
+
+
+            //- Update NavBar
+            UpdateNavBar(requestApptModel.StatusInfo);
+
+            SetPageTitle("Requested");
+
+
+            //- Create ViewModel
+            RequestedAppointmentViewModel vm = new RequestedAppointmentViewModel()
+            {
+                Appointments = requestApptModel.Appointments
+            };
+
+
+            return View(vm);
         }
 
         /// <summary>
@@ -68,31 +85,7 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
             }
 
 
-            return await GetRequestedView();
-        }
-
-        /// <summary>
-        /// Prepares ViewModel for use with view for requested appointments and updates navbar
-        /// </summary>
-        /// <returns>View</returns>
-        private async Task<IActionResult> GetRequestedView()
-        {
-            //- Get Appointments
-            var requestApptModel = await _appointmentDataAccess.GetAppointmentsAsync(AppointmentApprovalStatuses.Requested);
-
-
-            //- Update NavBar
-            UpdateNavBar(requestApptModel.StatusInfo);
-
-
-            //- Create ViewModel
-            RequestedAppointmentViewModel vm = new RequestedAppointmentViewModel()
-            {
-                Appointments = requestApptModel.Appointments
-            };
-
-
-            return View("Requested", vm);
+            return RedirectToAction("Requested");
         }
 
         #endregion
@@ -113,6 +106,8 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
             //- Update NavBar
             UpdateNavBar(confirmApptModel.StatusInfo);
+
+            SetPageTitle("Confirmed");
 
 
             //- Create ViewModel
@@ -141,6 +136,8 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
             //- Update NavBar
             UpdateNavBar(confirmApptModel.StatusInfo);
+
+            SetPageTitle("Alternative");
 
 
             //- Create ViewModel
@@ -173,6 +170,8 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
             //- Navbar
             UpdateNavBar(resultModel.StatusInfo);
+
+            SetPageTitle("Alternative");
 
 
             //- Create ViewModel
@@ -224,6 +223,8 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
             var apptInfo = await _appointmentDataAccess.GetAppointmentStatusesAsync();
 
             UpdateNavBar(apptInfo);
+
+            SetPageTitle("Alternative");
 
 
             return View();

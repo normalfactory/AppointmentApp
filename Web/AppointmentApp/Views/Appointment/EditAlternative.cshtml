@@ -41,25 +41,31 @@
 
 
     <h5 class="mt-5">Propose Alternative Time</h5>
-
+   
 
     <div class="row">
     
         <form asp-action="EditAlternative" method="post" class="form-horizontal" role="form">
 
-            <div class="form-group col-12">
-                @*<label asp-for="Appointment.AlternativeDateTimeOffset" class="col-md-4 control-label">Alternative Time</label>*@
-
-                <div class="">
+            <div class="col-12">
+                <div class="form-group">
                     <input asp-for="Appointment.AlternativeDateTimeOffset" type="datetime-local" asp-format="{0:yyyy-MM-dd}" class="form-control" />
                 </div>
+                
+                <span class="validationText" asp-validation-for="Appointment.AlternativeDateTimeOffset"></span>
             </div>
 
-            <div class="form-group col-12">
-                <div class="">
-                    <input type="submit" class="btn btn-primary" value="Set Alternate Time" />
+            <div class="col-12" mt-4>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary mt-4" value="Set Alternate Time" />
                 </div>
+
+                <a asp-controller="Appointment" asp-action="Requested">
+                    <input type="button" class="btn btn-secondary mt-1" value="Cancel" />
+                </a>
+
             </div>
+           
 
         </form>
 

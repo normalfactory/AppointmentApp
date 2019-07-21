@@ -15,10 +15,12 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Views\About\" />
     <Folder Include="Views\Appointment\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Data\Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\checkbox.png" />
   </ItemGroup>
 </Project>

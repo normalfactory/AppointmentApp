@@ -63,3 +63,16 @@ body {
 .confirmImage{
     max-width: 125px;
 }
+
+
+/* Landing Image */
+.landingImage{
+    max-width: 350px;
+}
+
+/* Style for validation text */
+.validationText{
+    color: red;
+    font-style: italic;
+    font-size: 14px;
+}

@@ -53,6 +53,8 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
 
             UpdateNavBar(apptStatus);
 
+            SetPageTitle("Welcome");
+
 
             return View();
         }

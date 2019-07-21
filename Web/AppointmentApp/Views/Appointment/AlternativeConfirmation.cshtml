@@ -5,8 +5,8 @@
 
     <div class="row mt-5">
 
-        <div class="col-sm-12 col-md-4">
-            <img src="../images/checkbox.png" class="img-fluid text-center rounded confirmImage" />
+        <div class="col-sm-12 col-md-4 text-center">
+            <img src="../images/checkbox.png" class="img-fluid rounded confirmImage" />
         </div>
 
 
@@ -15,7 +15,9 @@
                 The proposed alternative time for the appointment has been successfully sent.
             </p>
             <p>
-                <a asp-controller="Appointment" asp-action="Requested">Continue</a>
+                <a asp-controller="Appointment" asp-action="Requested">
+                    <input type="button" class="btn btn-primary" value="Continue" />
+                </a>
             </p>
         </div>
 

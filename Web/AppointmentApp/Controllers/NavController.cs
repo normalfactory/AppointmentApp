@@ -27,8 +27,39 @@ namespace NormalFactory.AppointmentApp.Web.Controllers
         /// </summary>
         private const string _alternativeCountViewDataKey = "AlternativeCount";
 
+        /// <summary>
+        /// ViewData key for the title
+        /// </summary>
+        private const string _titleDataKey = "Title";
+
+        /// <summary>
+        /// Name of the application; used with title
+        /// </summary>
+        private const string _applicationName = "PetScheduler";
         #endregion
 
+
+
+
+        #region Set Title
+
+        /// <summary>
+        /// Sets the title for the page; using the ViewData
+        /// </summary>
+        /// <param name="title">Title to be displayed</param>
+        public void SetPageTitle(string title)
+        {
+            if (string.IsNullOrEmpty(title) == false)
+            {
+                ViewData[_titleDataKey] = title + " - " + _applicationName;
+            }
+            else
+            {
+                ViewData[_titleDataKey] = _applicationName;
+            }
+        }
+
+        #endregion
 
 
 

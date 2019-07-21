@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace NormalFactory.AppointmentApp.Data
@@ -42,6 +43,7 @@ namespace NormalFactory.AppointmentApp.Data
         /// <summary>
         /// Alternative date-time of the appointment created by the vendor; set when the Status is Alternative 
         /// </summary>
+        [Required(ErrorMessage = "Valid alternative date required")]
         [JsonProperty("alternativeDateTimeOffset")]
         public DateTimeOffset AlternativeDateTimeOffset { get; set; }
 
